@@ -52,7 +52,9 @@ function Header() {
       </div>
       {/* Right */}
       <div className="flex items-center space-x-2 md:space-x-4 justify-end text-gray-500">
-        <p className="hidden md:inline">Become a host</p>
+        <p className="hidden md:inline cursor-pointer hover:text-gray-700">
+          Become a host
+        </p>
         <GlobeAltIcon className="h-6 cursor-pointer hover:text-gray-700" />
         <div className="flex items-center space-x-3 border-2 p-2 rounded-full  cursor-pointer hover:shadow-md">
           <Bars3Icon className="h-6" />
