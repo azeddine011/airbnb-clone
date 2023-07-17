@@ -13,12 +13,12 @@ function Banner() {
         }}
       />
       <div className="bg-slate-300 bg-opacity-30 absolute w-full h-full"></div>
-      <div className="absolute top-1/2 w-full text-center">
+      <div className="absolute top-1/3 sm:top-1/2 w-full text-center">
         <p className="text-lg sm:text-2xl font-bold uppercase">
           Not sure where to go? Perfect.
         </p>
         <button
-          className="text-purple-500 bg-white px-10 py-4 shadow-md rounded-full
+          className="text-purple-500 bg-white px-10 py-3 sm:py-4  shadow-md rounded-full
                             font-bold my-3 hover:shadow-xl hover:scale-105 active:scale-100 active:shadow-none transition duration-150"
         >
           I'm flexible
