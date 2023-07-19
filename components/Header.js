@@ -11,12 +11,15 @@ import { GlobeAltIcon } from "@heroicons/react/24/outline";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRangePicker } from "react-date-range";
+import { useRouter } from "next/navigation";
 
-function Header() {
+function Header({ placeholder }) {
   const [searchInput, setSearchInput] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [guestsNumber, setGuestsNumber] = useState(1);
+  const router = useRouter();
+
   const handleSelect = (ranges) => {
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
@@ -24,6 +27,12 @@ function Header() {
   const resetInput = () => {
     setSearchInput("");
   };
+  const handleSearch = () => {
+    router.push(
+      `search?location=${searchInput}&startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&guests=${guestsNumber}`
+    );
+  };
+
   const selectionRange = {
     startDate,
     endDate,
@@ -33,7 +42,7 @@ function Header() {
   return (
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md px-2 md:px-10">
       {/* Left */}
-      <div className="relative flex items-center h-14 md:h-16 cursor-pointer my-auto">
+      <div className="relative flex items-center h-14 md:h-16 my-auto">
         <Image
           alt="Airbnb Logo"
           src={airbnbLogo}
@@ -43,6 +52,8 @@ function Header() {
             objectFit: "contain",
             objectPosition: "left",
           }}
+          className="cursor-pointer"
+          onClick={() => router.push("/")}
         />
       </div>
       {/* Middle */}
@@ -53,7 +64,7 @@ function Header() {
             onChange={(e) => setSearchInput(e.target.value)}
             type="text"
             className="bg-gray-50 border border-red-300 text-gray-700 font-semibold text-sm rounded-full focus:ring-red-200 focus:border-red-500 focus:outline-none block w-full px-5 md:pr-9 p-2.5"
-            placeholder="Search"
+            placeholder={placeholder || "Search"}
           />
           <button
             type="button"
@@ -114,7 +125,9 @@ function Header() {
             <button onClick={resetInput} className="flex-grow text-gray-500">
               Cancel
             </button>
-            <button className="flex-grow text-red-400">Search</button>
+            <button onClick={handleSearch} className="flex-grow text-red-400">
+              Search
+            </button>
           </div>
         </div>
       )}
