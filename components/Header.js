@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import airbnbLogo from "@/public/airbnbLogo.webp";
 import {
   Bars3Icon,
@@ -11,7 +11,8 @@ import { GlobeAltIcon } from "@heroicons/react/24/outline";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRangePicker } from "react-date-range";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import nProgress from "nprogress";
 
 function Header({ placeholder }) {
   const [searchInput, setSearchInput] = useState("");
@@ -19,6 +20,8 @@ function Header({ placeholder }) {
   const [endDate, setEndDate] = useState(new Date());
   const [guestsNumber, setGuestsNumber] = useState(1);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const handleSelect = (ranges) => {
     setStartDate(ranges.selection.startDate);
@@ -28,9 +31,11 @@ function Header({ placeholder }) {
     setSearchInput("");
   };
   const handleSearch = () => {
+    nProgress.start();
     router.push(
       `search?location=${searchInput}&startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&guests=${guestsNumber}`
     );
+    resetInput();
   };
 
   const selectionRange = {
@@ -38,6 +43,10 @@ function Header({ placeholder }) {
     endDate,
     key: "selection",
   };
+
+  useEffect(() => {
+    nProgress.done();
+  }, [pathname, searchParams]);
 
   return (
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md px-2 md:px-10">
@@ -53,7 +62,12 @@ function Header({ placeholder }) {
             objectPosition: "left",
           }}
           className="cursor-pointer"
-          onClick={() => router.push("/")}
+          onClick={() => {
+            if (pathname !== "/") {
+              nProgress.start();
+            }
+            router.push("/");
+          }}
         />
       </div>
       {/* Middle */}
