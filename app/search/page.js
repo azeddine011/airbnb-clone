@@ -1,14 +1,17 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import InfoCard from "@/components/InfoCard";
 import { data } from "autoprefixer";
 import { format } from "date-fns";
 import React from "react";
 
-function page({ params, searchParams }) {
+async function page({ params, searchParams }) {
   const { location, startDate, endDate, guests } = searchParams;
-  const formatedStartDate = format(new Date(startDate), "dd MMMM yy");
-  const formatedEndDate = format(new Date(endDate), "dd MMMM yy");
+  const formatedStartDate = format(new Date(startDate), "dd MMMM");
+  const formatedEndDate = format(new Date(endDate), "dd MMMM");
   const range = `${formatedStartDate} - ${formatedEndDate}`;
+  const searchResults = await getData();
+
   return (
     <div>
       <Header placeholder={`${location} | ${range} | ${guests} guests`} />
@@ -28,12 +31,38 @@ function page({ params, searchParams }) {
             <p className="custom-button">Rooms and Beds</p>
             <p className="custom-button">More filters</p>
           </div>
+
+          <div className="flex flex-col">
+            {searchResults.map(
+              ({ img, location, title, description, star, price, total }) => (
+                <InfoCard
+                  key={img}
+                  img={img}
+                  location={location}
+                  title={title}
+                  description={description}
+                  star={star}
+                  price={price}
+                  total={total}
+                />
+              )
+            )}
+          </div>
         </section>
       </main>
 
       <Footer />
     </div>
   );
+}
+
+async function getData() {
+  const res = await fetch("https://www.jsonkeeper.com/b/5NPS", {
+    cache: "no-store",
+  });
+  const data = await res.json();
+
+  return data;
 }
 
 export default page;
