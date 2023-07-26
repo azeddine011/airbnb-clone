@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import InfoCard from "@/components/InfoCard";
+import MapComp from "@/components/Map";
 import { data } from "autoprefixer";
 import { format } from "date-fns";
 import React from "react";
@@ -48,6 +49,9 @@ async function page({ params, searchParams }) {
               )
             )}
           </div>
+        </section>
+        <section className="">
+          <MapComp />
         </section>
       </main>
 
