@@ -50,8 +50,8 @@ async function page({ params, searchParams }) {
             )}
           </div>
         </section>
-        <section className="">
-          <MapComp />
+        <section className="hidden xl:inline-flex xl:min-w-[600px]">
+          <MapComp searchResults={searchResults} />
         </section>
       </main>
 
