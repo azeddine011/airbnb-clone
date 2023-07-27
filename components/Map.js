@@ -14,8 +14,6 @@ export default function MapComp({ searchResults }) {
 
   const [showPopup, setShowPopup] = useState({});
 
-  console.log(showPopup);
-
   const center = getCenter(coordinates);
 
   return (
@@ -23,7 +21,7 @@ export default function MapComp({ searchResults }) {
       initialViewState={{
         longitude: center.longitude,
         latitude: center.latitude,
-        zoom: 14,
+        zoom: 11,
       }}
       // style={{ width: 600, height: 400 }}
       mapStyle="https://api.maptiler.com/maps/streets-v2-dark/style.json?key=0HPC4U7ScLL7k8YoGhzn"
@@ -43,8 +41,9 @@ export default function MapComp({ searchResults }) {
             <Popup
               longitude={result.long}
               latitude={result.lat}
-              anchor="bottom"
+              anchor="top"
               onClose={() => setShowPopup({})}
+              closeOnClick={false}
             >
               {result.title}
             </Popup>
