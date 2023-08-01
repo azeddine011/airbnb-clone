@@ -4,7 +4,7 @@ import InfoCard from "@/components/InfoCard";
 import MapComp from "@/components/Map";
 import { data } from "autoprefixer";
 import { format } from "date-fns";
-import React from "react";
+import React, { Suspense } from "react";
 
 async function page({ params, searchParams }) {
   const { location, startDate, endDate, guests } = searchParams;
@@ -36,22 +36,28 @@ async function page({ params, searchParams }) {
           <div className="flex flex-col">
             {searchResults.map(
               ({ img, location, title, description, star, price, total }) => (
-                <InfoCard
+                <Suspense
+                  fallback={<h2 className="text-2xl">loading...</h2>}
                   key={img}
-                  img={img}
-                  location={location}
-                  title={title}
-                  description={description}
-                  star={star}
-                  price={price}
-                  total={total}
-                />
+                >
+                  <InfoCard
+                    img={img}
+                    location={location}
+                    title={title}
+                    description={description}
+                    star={star}
+                    price={price}
+                    total={total}
+                  />
+                </Suspense>
               )
             )}
           </div>
         </section>
         <section className="hidden xl:inline-flex xl:min-w-[600px]">
-          <MapComp searchResults={searchResults} />
+          <Suspense fallback={<h2 className="text-2xl">Loading ....</h2>}>
+            <MapComp searchResults={searchResults} />
+          </Suspense>
         </section>
       </main>
 
