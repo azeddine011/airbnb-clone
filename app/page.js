@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import LargeCard from "@/components/LargeCard";
 import MediumCard from "@/components/MediumCard";
 import SmallCard from "@/components/SmallCard";
+import { Suspense } from "react";
 
 export default async function Home() {
   const exploreData = await getData("https://www.jsonkeeper.com/b/4G1G");
@@ -32,7 +33,9 @@ export default async function Home() {
           <h2 className="text-4xl font-semibold py-8">Live Anywhere</h2>
           <div className="flex space-x-4 overflow-scroll scrollbar-hide p-3 -ml-3">
             {cardsData?.map(({ img, title }) => (
-              <MediumCard key={img} img={img} title={title} />
+              <Suspense key={img} fallback={<p>loading ....</p>}>
+                <MediumCard img={img} title={title} />
+              </Suspense>
             ))}
           </div>
         </section>
